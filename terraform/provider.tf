@@ -21,6 +21,10 @@ locals {
     "iam.googleapis.com",
     "iamcredentials.googleapis.com",
     "sts.googleapis.com",
+    "redis.googleapis.com",             # Memorystore itself
+    "vpcaccess.googleapis.com",         # Serverless VPC Access connector
+    "servicenetworking.googleapis.com", # the private-services VPC peering Memorystore requires
+    "compute.googleapis.com",           # VPC networks/reserved IP ranges are Compute Engine resources under the hood
   ]
 }
 
