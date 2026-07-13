@@ -38,3 +38,9 @@ variable "github_deployer_service_account_id" {
   type        = string
   default     = "github-deployer"
 }
+
+variable "onix_bap_url" {
+  description = "onix-bap's Cloud Run URL, appended with /bap/caller. Placeholder until Milestone 6 exists."
+  type        = string
+  default     = "https://placeholder.invalid/bap/caller"
+}
