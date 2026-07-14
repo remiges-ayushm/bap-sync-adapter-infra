@@ -1,7 +1,7 @@
 resource "google_cloud_run_v2_service" "bap_sync_adapter" {
-  name     = "bap-sync-adapter"
-  location = var.region
-  ingress  = "INGRESS_TRAFFIC_ALL"
+  name                = "bap-sync-adapter"
+  location            = var.region
+  ingress             = "INGRESS_TRAFFIC_ALL"
   deletion_protection = false
   template {
     vpc_access {
