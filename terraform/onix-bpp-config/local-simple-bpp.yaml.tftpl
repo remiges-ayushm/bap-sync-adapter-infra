@@ -11,23 +11,22 @@ log:
     - subscriber_id
     - module_id
 http:
-  port: 8081
+  port: 8082
   timeout:
     read: 30
     write: 30
     idle: 30
 pluginManager:
   root: ./plugins
-
 plugins:
   otelsetup:
     id: otelsetup
     config:
-      serviceName: "beckn-one-bap"
+      serviceName: "beckn-one-bpp"
       serviceVersion: "1.0.0"
       environment: "development"
       domain: "ev_charging"
-      otlpEndpoint: "otel-collector-bap:4317"
+      otlpEndpoint: "otel-collector-bpp:4317"
       enableMetrics: "false"
       networkMetricsGranularity: "2min"
       networkMetricsFrequency: "4min"
@@ -35,13 +34,12 @@ plugins:
       enableLogs: "true"
       timeInterval: "5"
       auditFieldsConfig: "/app/config/audit-fields.yaml"
-
 modules:
-  - name: bapTxnReceiver
-    path: /bap/receiver/
+  - name: bppTxnReceiver
+    path: /bpp/receiver/
     handler:
       type: std
-      role: bap
+      role: bpp
       httpClientConfig:
         maxIdleConns: 1000
         maxIdleConnsPerHost: 200
@@ -56,12 +54,12 @@ modules:
         keyManager:
           id: simplekeymanager
           config:
-            networkParticipant: 'pond-mom-multitude.ngrok-free.dev'
-            keyId: '76EU7p3hfv3Bnc8buzFELhTSzmC7K8S9gvPcrVayCEQyAEg5mwys4t'
-            signingPrivateKey: 'pg9j05OtXb9UdbgOYQR+kAiGdbEmFA5VGSD7RMcxDRc='
-            signingPublicKey: 'sFD5wyQKJqQhQGp4OfBmqy0gmqfnU7VNMvNepCqkJiE='
-            encrPrivateKey: 'pg9j05OtXb9UdbgOYQR+kAiGdbEmFA5VGSD7RMcxDRc='
-            encrPublicKey: 'sFD5wyQKJqQhQGp4OfBmqy0gmqfnU7VNMvNepCqkJiE='
+            networkParticipant: 'purplish-detonator-outthink.ngrok-free.dev'
+            keyId: '76EU8sSkNwzRwuZXkZFxCCwDgfzVsWCN7e2ADS2k2AvFm6J7aZ24JB'
+            signingPrivateKey: 'QhYDELVn5qdS+HAboH0h64QClznVLHyQw9b3HqGbUGw='
+            signingPublicKey: '2zylst3Mjr0JBZm+Ye1GM/JCkrYcLSBSieCndPH4Dk8='
+            encrPrivateKey: 'QhYDELVn5qdS+HAboH0h64QClznVLHyQw9b3HqGbUGw='
+            encrPublicKey: '2zylst3Mjr0JBZm+Ye1GM/JCkrYcLSBSieCndPH4Dk8='
         schemaValidator:
           id: schemav2validator
           config:
@@ -81,22 +79,17 @@ modules:
         router:
           id: router
           config:
-            routingConfig: /app/config/routing-receiver/local-simple-routing-BAPReceiver.yaml
-        middleware:
-          - id: reqpreprocessor
-            config:
-              uuidKeys: transaction_id,message_id
-              role: bap
+            routingConfig: /app/config/routing-receiver/local-simple-routing-BPPReceiver.yaml
       steps:
         - validateSign
         - addRoute
         - validateSchema
 
-  - name: bapTxnCaller
-    path: /bap/caller/
+  - name: bppTxnCaller
+    path: /bpp/caller/
     handler:
       type: std
-      role: bap
+      role: bpp
       httpClientConfig:
         maxIdleConns: 1000
         maxIdleConnsPerHost: 200
@@ -111,12 +104,12 @@ modules:
         keyManager:
           id: simplekeymanager
           config:
-            networkParticipant: 'pond-mom-multitude.ngrok-free.dev'
-            keyId: '76EU7p3hfv3Bnc8buzFELhTSzmC7K8S9gvPcrVayCEQyAEg5mwys4t'
-            signingPrivateKey: 'pg9j05OtXb9UdbgOYQR+kAiGdbEmFA5VGSD7RMcxDRc='
-            signingPublicKey: 'sFD5wyQKJqQhQGp4OfBmqy0gmqfnU7VNMvNepCqkJiE='
-            encrPrivateKey: 'pg9j05OtXb9UdbgOYQR+kAiGdbEmFA5VGSD7RMcxDRc='
-            encrPublicKey: 'sFD5wyQKJqQhQGp4OfBmqy0gmqfnU7VNMvNepCqkJiE='
+            networkParticipant: 'purplish-detonator-outthink.ngrok-free.dev'
+            keyId: '76EU8sSkNwzRwuZXkZFxCCwDgfzVsWCN7e2ADS2k2AvFm6J7aZ24JB'
+            signingPrivateKey: 'QhYDELVn5qdS+HAboH0h64QClznVLHyQw9b3HqGbUGw='
+            signingPublicKey: '2zylst3Mjr0JBZm+Ye1GM/JCkrYcLSBSieCndPH4Dk8='
+            encrPrivateKey: 'QhYDELVn5qdS+HAboH0h64QClznVLHyQw9b3HqGbUGw='
+            encrPublicKey: '2zylst3Mjr0JBZm+Ye1GM/JCkrYcLSBSieCndPH4Dk8='
         schemaValidator:
           id: schemav2validator
           config:
@@ -134,14 +127,14 @@ modules:
         router:
           id: router
           config:
-            routingConfig: /app/config/routing-caller/local-simple-routing-BAPCaller.yaml
+            routingConfig: /app/config/routing-caller/local-simple-routing-BPPCaller.yaml
         signer:
           id: signer
         middleware:
           - id: reqpreprocessor
             config:
               uuidKeys: transaction_id,message_id
-              role: bap
+              role: bpp
       steps:
         - addRoute
         - sign
