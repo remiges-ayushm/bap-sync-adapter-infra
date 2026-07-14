@@ -16,7 +16,7 @@ resource "google_cloud_run_v2_service" "bap_sync_adapter" {
       }
       env {
         name  = "ONIX_URL"
-        value = var.onix_bap_url
+        value = "${var.onix_bap_url}/bap/caller"
       }
       env {
         name  = "APP_ENV"
