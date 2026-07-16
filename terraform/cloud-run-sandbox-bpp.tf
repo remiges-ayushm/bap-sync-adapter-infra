@@ -4,8 +4,12 @@ resource "google_cloud_run_v2_service" "sandbox_bpp" {
   ingress  = "INGRESS_TRAFFIC_ALL"
   template {
     containers {
-      image = "ayushmatha2001/test-repo:v1"
+      image = "ayushmatha2001/test-repo:v2"
       ports { container_port = 3002 }
+      env {
+        name  = "RESPONSE_FIXTURES_BASE_URL"
+        value = var.response_fixtures_base_url
+      }
     }
   }
 }

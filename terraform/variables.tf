@@ -44,3 +44,9 @@ variable "onix_bap_url" {
   type        = string
   default     = "https://placeholder.invalid/bap/caller"
 }
+
+variable "response_fixtures_base_url" {
+  description = "Base URL for sandbox-bpp response fixtures"
+  type        = string
+  default     = "https://raw.githubusercontent.com/remiges-ayushm/sandbox-responses/main/responses"
+}
